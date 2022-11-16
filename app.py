@@ -9,6 +9,10 @@ def hello():
     return "Hello World!"
 
 
+@app.route('/reports/')
+def send_index(path):
+    return send_from_directory('reports', "index.html")
+
 @app.route('/reports/<path:path>')
 def send_report(path):
     return send_from_directory('reports', path)
