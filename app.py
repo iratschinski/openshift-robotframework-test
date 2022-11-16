@@ -10,10 +10,7 @@ def hello():
 
 @app.route('/reports')
 def send_index():
-    return "blaa"
-    if path == "":
-        path = "index.html"
-    return send_from_directory('reports', path)
+    return send_from_directory('reports', "index.html")
 
 @app.route('/reports/<path:path>')
 def send_report(path):
