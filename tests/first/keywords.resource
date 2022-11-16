@@ -2,6 +2,11 @@
 Library     String
 Library     Collections
 Library     DateTime
+Library     RequestsLibrary
+
+
+*** Variables ***
+${urlTimeApi}       "https://www.timeapi.io/api/Time/current/zone?timeZone=Europe/Berlin"
 
 
 *** Keywords ***
@@ -30,3 +35,14 @@ Check Correct Greeting
     ELSE
         Fail    Sorry. But that was the wrong answer... Bye Bye...
     END
+
+Load TimeAPI Time
+    [Arguments]    ${timeZone}
+    ${response}=    GET
+    ...    https://www.timeapi.io/api/Time/current/zone
+    ...    params=timeZone=Europe/Berlin
+    ...    expected_status=200
+
+    ${apiTime}=    Get Substring    ${response.json()}[dateTime]    0    23
+    ${apiTime}=    Replace String    ${apiTime}    T    ${SPACE}
+    RETURN    ${apiTime}

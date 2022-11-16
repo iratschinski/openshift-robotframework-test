@@ -1,18 +1,24 @@
 *** Settings ***
-Documentation       This .robot file is a suite
+Documentation       First robot test suite with different tests
 ...
 ...                 Keywords are imported from the resource file
 
 Resource            keywords.resource
 Library             DateTime
+Library             BuiltIn
+
+
+*** Variables ***
+${text}     Ein kleiner text
 
 
 *** Test Cases ***
-Simple Test Case
-    [Documentation]    Shows some assertion keywords
+Test simple assertions
+    [Documentation]    Shows simple assertions
     Should Be Title Case    Robot Framework
     Should Be Equal    Text123    Text123
     Should Be True    5 + 5 == 10
+    Length Should Be    ${text}    16
 
 Test with Keywords
     Store Text    Hail Our Robot
@@ -27,6 +33,16 @@ Test for the year 2022
     Log    ${date}
     Log    ${date.year}
     Should Be Equal As Strings    ${date.year}    2022
+
+Test time is in sync
+    [Documentation]    Tests whether the current time of the pod is in sync
+    ${localTime}=    Get Current Date    result_format=epoch    exclude_millis=true
+    ${localTime}=    Convert To Integer    ${localTime}
+    ${apiTime}=    Load TimeAPI Time    "Europe/Berlin"
+    ${apiTime}=    Convert Date    ${apiTime}    result_format=epoch    exclude_millis=true
+    Log    LocalTime=${localTime} ApiTime=${apiTime}
+    ${diffTime}=    Evaluate    abs(int(${localTime})-int(${apiTime}))
+    Should Be True    ${diffTime} < 10
 
 Test Case that fails
     Check Correct Greeting    Hail Our Robot Overlords!
