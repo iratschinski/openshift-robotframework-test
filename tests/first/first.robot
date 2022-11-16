@@ -6,6 +6,7 @@ Documentation       First robot test suite with different tests
 Resource            keywords.resource
 Library             DateTime
 Library             BuiltIn
+Library             OperatingSystem
 
 
 *** Variables ***
@@ -38,12 +39,11 @@ Test time is in sync
     [Documentation]    Tests whether the current time of the pod is in sync
     ${localTime}=    Get Current Date    result_format=epoch    exclude_millis=true
     ${localTime}=    Convert To Integer    ${localTime}
-    ${apiTime}=    Load TimeAPI Time    "Europe/Berlin"
+
+    ${localTimezone}=    Get Local Timezone
+
+    ${apiTime}=    Load TimeAPI Time    ${localTimezone}
     ${apiTime}=    Convert Date    ${apiTime}    result_format=epoch    exclude_millis=true
     Log    LocalTime=${localTime} ApiTime=${apiTime}
     ${diffTime}=    Evaluate    abs(int(${localTime})-int(${apiTime}))
     Should Be True    ${diffTime} < 10
-
-Test Case that fails
-    Check Correct Greeting    Hail Our Robot Overlords!
-#    Check Correct Greeting    Hello World!
