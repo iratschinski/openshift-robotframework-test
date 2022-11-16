@@ -14,7 +14,6 @@ def send_index():
 
 @app.route('/reports/<path:path>')
 def send_report(path):
-    return path
     if path == "":
         path = "index.html"
     return send_from_directory('reports', path)
