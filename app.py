@@ -22,6 +22,6 @@ if __name__ == '__main__':
     port = os.environ.get('FLASK_PORT') or 8080
     port = int(port)
 
-    os.system("test.py tests")
+    os.system("python test.py tests")
 
     app.run(port=port,host='0.0.0.0')
