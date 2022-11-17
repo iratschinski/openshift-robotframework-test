@@ -7,7 +7,8 @@ Library     Process
 
 
 *** Variables ***
-${urlTimeApi}       https://www.timeapi.io/api/Time/current/zone
+${urlTimeApi}           https://www.timeapi.io/api/Time/current/zone
+${urlTimeZoneByIp}      https://ipapi.co/timezone
 
 
 *** Keywords ***
@@ -49,5 +50,10 @@ Load TimeAPI Time
     RETURN    ${apiTime}
 
 Get Local Timezone
-    ${localTimezone}=    Run Process    cat    /etc/timezone
-    RETURN    ${localTimezone.stdout}
+#    ${localTimezone}=    Run Process    cat    /etc/timezone
+#    RETURN    ${localTimezone.stdout}
+    ${response}=    GET
+    ...    ${urlTimeZoneByIp}
+    ...    expected_status=200
+
+    RETURN    ${response.text}
