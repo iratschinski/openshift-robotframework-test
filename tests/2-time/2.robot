@@ -8,17 +8,24 @@ Library             OperatingSystem
 
 
 *** Test Cases ***
-Test time is in sync
+Test Time Is In Sync
     [Documentation]    Tests whether the current time of the pod is in sync
-    ${localTime}=    Get Current Date    result_format=epoch    exclude_millis=true
-    ${localTime}=    Convert To Integer    ${localTime}
+    ${apiMillis}=    Get TimeApi Datetime Millis    UTC
+    ${localMillis}=    Get Local Datetime Millis    UTC
 
-    ${localTimezone}=    Get Local Timezone
+    ${diff}=    Evaluate    abs(${localMillis}-${apiMillis})
+    Log    LocalMillis=${localMillis} ApiMillis=${apiMillis} Diff=${diff}
+    Should Be True    ${diff} < 12000
 
-    Log    LocalTimeZone=${localTimeZone}
+Test Timezone Is Correct
+    [Documentation]    Tests whether the current timezone is correct due to geoposition
 
-    ${apiTime}=    Load TimeAPI Time    ${localTimezone}
-    ${apiTime}=    Convert Date    ${apiTime}    result_format=epoch    exclude_millis=true
-    Log    LocalTime=${localTime} ApiTime=${apiTime}
-    ${diffTime}=    Evaluate    abs(int(${localTime})-int(${apiTime}))
-    Should Be True    ${diffTime} < 10
+    ${apiTimezone}=    Get TimeApi Timezone
+    Log    ApiTimeZone=${apiTimezone}
+
+    ${apiMillis}=    Get TimeApi Datetime Millis    ${apiTimezone}
+    ${localMillis}=    Get Local Datetime Millis    UTC
+
+    ${diff}=    Evaluate    abs(${localMillis}-${apiMillis})
+    Log    LocalMillis=${localMillis} ApiMillis=${apiMillis} Diff=${diff}
+    Should Be True    ${diff} < 12000
