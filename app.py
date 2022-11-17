@@ -7,16 +7,14 @@ app = Flask(__name__)
 @app.route('/')
 def start():
     start_tests()
-    return "Tests restarted TODO"
+    return send_from_directory('html', "index.html")
 
 @app.route('/reports')
 def send_index():
-    return send_from_directory('reports', "index.html")
+    return send_from_directory('html', "reports.html")
 
 @app.route('/reports/<path:path>')
 def send_report(path):
-    if path == "":
-        path = "index.html"
     return send_from_directory('reports', path)
 
 def start_tests():
