@@ -42,6 +42,8 @@ Test time is in sync
 
     ${localTimezone}=    Get Local Timezone
 
+    Log    LocalTimeZone=${localTimeZone}
+
     ${apiTime}=    Load TimeAPI Time    ${localTimezone}
     ${apiTime}=    Convert Date    ${apiTime}    result_format=epoch    exclude_millis=true
     Log    LocalTime=${localTime} ApiTime=${apiTime}

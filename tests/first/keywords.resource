@@ -41,7 +41,7 @@ Load TimeAPI Time
     [Arguments]    ${timeZone}
     ${response}=    GET
     ...    ${urlTimeApi}
-    ...    params=timeZone=Europe/Berlin
+    ...    params=timeZone=${timeZone}
     ...    expected_status=200
 
     ${apiTime}=    Get Substring    ${response.json()}[dateTime]    0    23
