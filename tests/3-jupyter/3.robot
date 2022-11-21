@@ -7,10 +7,6 @@ Library             BuiltIn
 Library             OperatingSystem
 
 
-*** Variables ***
-${DIFF_LESS}    12000
-
-
 *** Test Cases ***
 Test Jupyter AutoApi is available
     [Documentation]    Tests whether the jupyter auto api is available

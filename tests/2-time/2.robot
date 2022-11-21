@@ -26,7 +26,7 @@ Test Time Is In Sync
 Test Timezone Is Correct
     [Documentation]    Tests whether the current timezone is correct due to geoposition
 
-    Skip
+#    Skip
 
     ${apiTimezone}=    Get TimeApi Timezone
 
